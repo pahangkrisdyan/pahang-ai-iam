@@ -1,4 +1,17 @@
 services:
+  postgres:
+    image: postgres:15
+    container_name: postgres
+    environment:
+      - POSTGRES_DB=${DB_DATABASE}
+      - POSTGRES_USER=${DB_USER}
+      - POSTGRES_PASSWORD=${DB_PASSWORD}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    restart: unless-stopped
+
   keycloak:
     image: quay.io/keycloak/keycloak:latest
     container_name: keycloak
@@ -27,6 +40,8 @@ services:
     ports:
       - 8080:8080
       - 9000:9000
+    depends_on:
+      - postgres
     restart: unless-stopped
     command: start
 
@@ -40,3 +55,6 @@ services:
     depends_on:
       - keycloak
     restart: unless-stopped
+
+volumes:
+  postgres_data:
