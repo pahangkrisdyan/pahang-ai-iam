@@ -41,6 +41,7 @@ services:
       - PROXY_ADDRESS_FORWARDING=true
       - KC_PROXY=edge
       - KC_FRONTEND_URL=https://${KC_HOSTNAME}
+      - JAVA_OPTS_APPEND=-Xms512m -Xmx1024m
     ports:
       - 8080:8080
       - 9000:9000
